@@ -1,12 +1,12 @@
 ===  TinyWebDB API  ===
 Contributors: chen420
-Plugin URI: http://appinventor.in/side/tinywebdb-api/
+Plugin URI: http://edu2web.com/tinywebdb-api/
 Author URI: http://digilib.net/
-Donate link: http://appinventor.in/donate/
+Donate link: http://edu2web.com/tinywebdb-api/donate/
 Tags: appinventor, tinywebdb, api
-Requires at least: 3.4
-Tested up to: 3.4.2
-Stable tag: 0.2.0
+Requires at least: 4.0
+Tested up to: 4.4
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,15 +19,15 @@ AppInventor is a easy way to creating an Android app from web browser.
 TinyWebDB API is a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebDB web service.
 
 TinyWebDB Protocol:
-    Action        URL                      Post Parameters  Response 
-    Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}] 
-    Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}] 
+    Action        URL                      Post Parameters  Response
+    Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}]
+    Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}]
 
 Roadmap:
     TinyWebDB API 0.1.0 implemented Get Value Action.
     TinyWebDB API 0.2.0 will implement Store A Value Action.
-	TinyWebDB API 0.3.0 will implement Authentication.
-	TinyWebDB API 1.0.0 Full release.
+	  TinyWebDB API 0.3.0 will implement Authentication.
+	  TinyWebDB API 1.0.0 Full release.
 
 Visit Plugin URI for detail.
 
@@ -47,7 +47,7 @@ for how to use AppInventor to inventor your Android app with this plugin , visit
 3. Reactivate plugin
 
 Upgrade notes:
-*  You may use the autmoated plugin updater in WordPress 2.5+ with this plugin, but make sure you read the upgrade notes of the latest version after upgrading.
+*  You may use the automated plugin updater in WordPress 2.5+ with this plugin, but make sure you read the upgrade notes of the latest version after upgrading.
 
 = 1.0 =
 
@@ -77,5 +77,7 @@ First alpha release which implemented Get Value Action.
 Release which implemented Get Value Action with API Key.
 Add test URL on admin menu.
 
-= 1.0.0 =
+= 0.2.2 =
+Re-write code with oo-calss style.
 
+= 1.0.0 =

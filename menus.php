@@ -1,5 +1,8 @@
 <?php
 
+class TinyWebDB_Admin {
+
+}
 
 //***** Options Menu *****
 function wp_tinywebdb_api_optionsmenu() {
@@ -80,7 +83,7 @@ function wp_tinywebdb_api_optionsmenu() {
     </table>
       <div class="clear"></div>
     </div>
-			  
+
 	<h3>Address</h3>
 
     <table class="form-table">
@@ -97,7 +100,7 @@ function wp_tinywebdb_api_optionsmenu() {
 	<tr valign="top">
 		<th scope="row">Tag type</th>
 		<td>
-			<input type="radio" name="tagtype" value="id" <?php if ($setting_tagtype == 'id') {	echo 'checked="checked"';} ?> /> Post ID 
+			<input type="radio" name="tagtype" value="id" <?php if ($setting_tagtype == 'id') {	echo 'checked="checked"';} ?> /> Post ID
 			<input type="radio" name="tagtype" value="slug"  <?php if ($setting_tagtype == 'slug') { echo 'checked="checked"';	} ?> /> Slug
 			<br/>Select Tag mach to type <em>post_id</em> or <em>slug</em>.</td>
 	</tr>

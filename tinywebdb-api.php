@@ -1,21 +1,19 @@
 <?php
 /*
 Plugin Name: Wp TinyWebDB API
-Plugin URI: http://appinventor.in/side/tinywebdb-api/
+Plugin URI: http://edu2web.com/tinywebdb-api/
 Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebDB web service.
-    Action        URL                      Post Parameters  Response 
-    Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}] 
-    Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}] 
+    Action        URL                      Post Parameters  Response
+    Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}]
+    Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}]
 Author: Hong Chen
 Author URI: http://digilib.net/
-Version: 0.2.1
+Version: 0.2.2
 */
 
 
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
-define("TINYWEBDB_VER", "0.2.1");
-
-
+define("TINYWEBDB_VER", "0.2.2");
 
 //***** Hooks *****
 register_activation_hook(__FILE__,'wp_tinywebdb_api_install'); //Install
@@ -29,52 +27,6 @@ if (is_admin()) {
 	include "installer.php";
 }
 
-function wp_tinywebdb_api_get_postid($tagName){
-	
-	$tagtype = get_option("wp_tinywebdb_api_tag_type");
-	if ($tagtype=='') {
-		$tagtype = 'id';
-	}
-
-	if ($tagtype == 'id') {
-		$postid = $tagName;
-	} else {
-		// get_page_by_path('slug')->ID;
-		$args=array(
-		  'name' => $tagName,
-		  'post_type' => 'post',
-		  'post_status' => 'publish',
-		  'showposts' => 1,
-		  'caller_get_posts'=> 1
-		);
-		$my_posts = get_posts($args);
-		if( $my_posts ) {
-		  $postid = $my_posts[0]->ID;
-		}
-	}
-	
-	return $postid;
-}
-
-
-function wp_tinywebdb_api_get_tagName($postid){
-	
-	$tagtype = get_option("wp_tinywebdb_api_tag_type");
-	if ($tagtype=='') {
-		$tagtype = 'id';
-	}
-
-	if ($tagtype == 'id') {
-		$tagName = $postid;
-	} else {
-		// get_page_by_path('slug')->ID;
-		$post_data = get_post($postid, ARRAY_A);
-		$slug = $post_data['post_name'];
-		$tagName = $slug;
-	}
-	
-	return $tagName;
-}
 
 //***** get $request and get_post , then json_encode it *****
 
@@ -87,14 +39,13 @@ function add_fetch($public_query_vars) {
 }
 
 function wp_tinywebdb_api_query() {
-	global $wpdb, $table_prefix;
-	$bedtag = array("id" => "0", "post_author" => "0", "post_content" => "ERROR BAD tag SUPPLIED");
 
 	$request = $_SERVER['REQUEST_URI'];
 	if (!isset($_SERVER['REQUEST_URI'])) {
 		$request = substr($_SERVER['PHP_SELF'], 1);
 		if (isset($_SERVER['QUERY_STRING']) AND $_SERVER['QUERY_STRING'] != '') { $request.='?'.$_SERVER['QUERY_STRING']; }
 	}
+	
 	$url_trigger = get_option("wp_tinywebdb_api_url_trigger");
 	if ($url_trigger=='') {
 		$url_trigger = 'api';
@@ -106,26 +57,14 @@ function wp_tinywebdb_api_query() {
 
 	if ( strpos('/'.$request, '/'.$url_trigger.'/') ) {
 
-    global $wp_query;
-    if ($wp_query->is_404) {
-        $wp_query->is_404 = false;
-        $wp_query->is_archive = true;
-    }
-    header("HTTP/1.1 200 OK");
+		include "tinywebdb.php";
+		$tinywebdb = TinyWebDB;
+		header("HTTP/1.1 200 OK");
 
-		$tinywebdb_key = explode($url_trigger.'/', $request);
-		$tinywebdb_key = $tinywebdb_key[1];
-		$tinywebdb_key = explode('/', $tinywebdb_key);
-		$action = $tinywebdb_key[0];
-		$action = $wpdb->escape($action);
-		switch ($action) {
-			case "getvalue": // this action enable from v 0.1.x
-				// JSON_API , Post Parameters : tag
+		switch (TinyWebDB::get_action()) {
+			case "getvalue":
 				$tagName = get_query_var('tag');
-				$postid = wp_tinywebdb_api_get_postid($tagName);
-				$tagValue = get_post($postid);
-				if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
-				// $tagName = wp_tinywebdb_api_get_tagName($postid);
+				$tagValue = TinyWebDB::getvalue($tagName);
 
 				header('Cache-Control: no-cache, must-revalidate');
 				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
@@ -136,29 +75,13 @@ function wp_tinywebdb_api_query() {
 			case "storeavalue": // this action will enable from v 0.2.x
 				// JSON_API , Post Parameters : tag,value
 				$tagName = get_query_var('tag');
-				$tagValue = get_query_var('value');	             // $_REQUEST['value']; // 
+				$tagValue = get_query_var('value');	             // $_REQUEST['value']; //
 				$apiKey = get_query_var('apikey');
-error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
+				error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
 				$setting_apikey = get_option("wp_tinywebdb_api_key");
 				if ($apiKey == $setting_apikey){
-					
-					// Create post object
-					$args = array(
-					  'post_title'    => wp_strip_all_tags( $tagName ),
-					  'post_content'  => $tagValue,
-					  'post_status'   => 'publish',
-					);
 
-					// Insert the post into the database
-					$postid = wp_insert_post( $args );
-					if ($postid == 0) {
-						$postid = wp_tinywebdb_api_get_postid($tagName);
-						$args = array(
-						  'ID'		     => wp_strip_all_tags( $postid ),
-						  'post_content' => $tagValue,
-						);
-						$postid = wp_update_post( $args );
-					}
+					$postid = TinyWebDB::getvalue($tagName, $tagValue);
 					$tagName = wp_tinywebdb_api_get_tagName($postid);
 
 					header('Cache-Control: no-cache, must-revalidate');
