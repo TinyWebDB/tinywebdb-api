@@ -15,7 +15,7 @@ class TinyWebDB {
 
   }
 
-  public function __construct {
+  public function __construct() {
 
     global $wp_query;
     if ($wp_query->is_404) {
