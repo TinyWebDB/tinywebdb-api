@@ -118,7 +118,7 @@ if ( !class_exists('TinyWebDB') ) {
       $tagValue = get_post($postid);
       if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
       // $tagName = wp_tinywebdb_api_get_tagName($postid);
-      return $tagValue;
+      return $tagValue->post_content;
     }
   
     public static function storeavalue($tagName, $tagValue) {
