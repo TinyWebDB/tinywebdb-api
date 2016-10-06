@@ -40,64 +40,49 @@ function add_fetch($public_query_vars) {
 
 function wp_tinywebdb_api_query() {
 
-	$request = $_SERVER['REQUEST_URI'];
-	if (!isset($_SERVER['REQUEST_URI'])) {
-		$request = substr($_SERVER['PHP_SELF'], 1);
-		if (isset($_SERVER['QUERY_STRING']) AND $_SERVER['QUERY_STRING'] != '') { $request.='?'.$_SERVER['QUERY_STRING']; }
-	}
-	
-	$url_trigger = get_option("wp_tinywebdb_api_url_trigger");
-	if ($url_trigger=='') {
-		$url_trigger = 'api';
-	}
 
-	if (isset($_POST['action'])) {
-		$request = '/' . $url_trigger . '/'.$_POST['action'].'/';
-	}
+	require_once dirname(__FILE__) . '/tinywebdb.php';
+	$tinywebdb = TinyWebDB;
+	header("HTTP/1.1 200 OK");
 
-	if ( strpos('/'.$request, '/'.$url_trigger.'/') ) {
+	switch (TinyWebDB::get_action()) {
+		case "getvalue":
+			$tagName = get_query_var('tag');
+			$tagValue = TinyWebDB::getvalue($tagName);
 
-		include "tinywebdb.php";
-		$tinywebdb = TinyWebDB;
-		header("HTTP/1.1 200 OK");
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+			header('Content-type: application/json');
+			echo json_encode(array("VALUE", $tagName, $tagValue));
+			exit; // this stops WordPress entirely
+			break;
+		case "storeavalue": // this action will enable from v 0.2.x
+			// JSON_API , Post Parameters : tag,value
+			$tagName = get_query_var('tag');
+			$tagValue = get_query_var('value');	             // $_REQUEST['value']; //
+			$apiKey = get_query_var('apikey');
+			error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
+			$setting_apikey = get_option("wp_tinywebdb_api_key");
+			if ($apiKey == $setting_apikey){
 
-		switch (TinyWebDB::get_action()) {
-			case "getvalue":
-				$tagName = get_query_var('tag');
-				$tagValue = TinyWebDB::getvalue($tagName);
+				$postid = TinyWebDB::storeavalue($tagName, $tagValue);
+				$tagName = TinyWebDB::wp_tinywebdb_api_get_tagName($postid);
 
 				header('Cache-Control: no-cache, must-revalidate');
 				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 				header('Content-type: application/json');
-				echo json_encode(array("VALUE", $tagName, $tagValue));
-				exit; // this stops WordPress entirely
-				break;
-			case "storeavalue": // this action will enable from v 0.2.x
-				// JSON_API , Post Parameters : tag,value
-				$tagName = get_query_var('tag');
-				$tagValue = get_query_var('value');	             // $_REQUEST['value']; //
-				$apiKey = get_query_var('apikey');
-				error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
-				$setting_apikey = get_option("wp_tinywebdb_api_key");
-				if ($apiKey == $setting_apikey){
-
-					$postid = TinyWebDB::getvalue($tagName, $tagValue);
-					$tagName = wp_tinywebdb_api_get_tagName($postid);
-
-					header('Cache-Control: no-cache, must-revalidate');
-					header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-					header('Content-type: application/json');
-					echo json_encode(array("STORED", $tagName, $tagValue));
-				} else {
-					echo "check api key.";
-				}
-			    exit;
-				break;
-			default:
-				break;
-		}
-		echo '{"status":"ok","tinywebdb_api_version":"' . TINYWEBDB_VER . '","controllers":["getvalue","storeavalue"]}' . "\n";
-		exit; // this stops WordPress entirely
+				echo json_encode(array("STORED", $tagName, $tagValue));
+			} else {
+				echo "check api key.";
+			}
+		    exit;
+			break;
+		case "No match!":
+			break;
+		default:
+			echo '{"status":"ok","tinywebdb_api_version":"' . TINYWEBDB_VER . '","controllers":["getvalue","storeavalue"]}' . "\n";
+			exit; // this stops WordPress entirely
+			break;
 	}
 }
 //***** End get $request and call JSON_API *****
