@@ -131,5 +131,8 @@ add_action('init', 'wp_tinywebdb_api_admin_script');
 add_action('wp_head', 'wp_tinywebdb_api_admin_style');
 
 function wp_tinywebdb_api_footer() {
+	echo '<div style="margin-top:45px; font-size:0.87em;">';
+	echo '<div><a href="' . wp_tinywebdb_api_get_plugin_dir('url') . '/readme.txt">Documentation</a> </div>';
+	echo '</div>';
 }
 ?>
