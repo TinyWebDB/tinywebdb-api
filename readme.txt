@@ -1,11 +1,11 @@
 ===  TinyWebDB API  ===
 Contributors: chen420
-Plugin URI: http://edu2web.com/tinywebdb-api/
-Author URI: http://digilib.net/
+Plugin URI: https://github.com/edu2web/tinywebdb-api
+Author URI: http://edu2web.com/tinywebdb-api/
 Donate link: http://edu2web.com/tinywebdb-api/donate/
 Tags: appinventor, tinywebdb, api
 Requires at least: 4.0
-Tested up to: 4.4
+Tested up to: 4.6.1
 Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
