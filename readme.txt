@@ -6,7 +6,7 @@ Donate link: http://edu2web.com/tinywebdb-api/donate/
 Tags: appinventor, tinywebdb, api
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,8 @@ TinyWebDB Protocol:
 Roadmap:
     TinyWebDB API 0.1.0 implemented Get Value Action.
     TinyWebDB API 0.2.0 will implement Store A Value Action.
-	  TinyWebDB API 0.3.0 will implement Authentication.
-	  TinyWebDB API 1.0.0 Full release.
+	TinyWebDB API 0.3.0 will implement Authentication.
+	TinyWebDB API 1.0.0 Full release.
 
 Visit Plugin URI for detail.
 

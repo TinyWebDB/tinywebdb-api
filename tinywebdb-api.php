@@ -1,19 +1,19 @@
 <?php
 /*
 Plugin Name: Wp TinyWebDB API
-Plugin URI: http://edu2web.com/tinywebdb-api/
+Plugin URI: https://github.com/edu2web/tinywebdb-api
 Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebDB web service.
     Action        URL                      Post Parameters  Response
     Get Value     {ServiceURL}/getvalue    tag              JSON: ["VALUE","{tag}", {value}]
     Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}]
 Author: Hong Chen
-Author URI: http://digilib.net/
-Version: 0.2.2
+Author URI: http://edu2web.com/tinywebdb-api/
+Version: 0.2.3
 */
 
 
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
-define("TINYWEBDB_VER", "0.2.2");
+define("TINYWEBDB_VER", "0.2.3");
 
 //***** Hooks *****
 register_activation_hook(__FILE__,'wp_tinywebdb_api_install'); //Install
