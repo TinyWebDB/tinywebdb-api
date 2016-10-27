@@ -24,7 +24,7 @@ function wp_tinywebdb_api_optionsmenu() {
 	$setting_tagtype = get_option("wp_tinywebdb_api_tag_type") or $setting_tagtype = 'id';
 	$setting_apikey = get_option("wp_tinywebdb_api_key");
 
-	echo '<form method="post" action="http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . '">';
+	echo '<form method="post" action="">';
 	echo '<table class="form-table">';
 	?>
 
@@ -131,8 +131,5 @@ add_action('init', 'wp_tinywebdb_api_admin_script');
 add_action('wp_head', 'wp_tinywebdb_api_admin_style');
 
 function wp_tinywebdb_api_footer() {
-	echo '<div style="margin-top:45px; font-size:0.87em;">';
-	echo '<div><a href="' . wp_tinywebdb_api_get_plugin_dir('url') . '/readme.txt">Documentation</a> | <a href="http://appinventor.in/side/tinywebdb-api/">TinyWebDB Homepage</a></div>';
-	echo '</div>';
 }
 ?>
