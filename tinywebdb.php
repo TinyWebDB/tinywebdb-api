@@ -64,6 +64,8 @@ if ( !class_exists('TinyWebDB') ) {
   
     function wp_tinywebdb_api_get_postid($tagName){
   
+      $postid = NULL;
+      $tagName = wp_strip_all_tags($tagName);
     	$tagtype = get_option("wp_tinywebdb_api_tag_type");
     	if ($tagtype=='') {
     		$tagtype = 'id';
@@ -123,19 +125,26 @@ if ( !class_exists('TinyWebDB') ) {
   
     public static function storeavalue($tagName, $tagValue) {
   
-      // Create post object
-      $args = array(
-        'post_title'    => wp_strip_all_tags( $tagName ),
-        'post_content'  => $tagValue,
-        'post_status'   => 'publish',
-      );
-  
-      // Insert the post into the database
-      $postid = wp_insert_post( $args );
-      if ($postid == 0) {
-        $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
+      $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
+      $tagValue = stripslashes($tagValue);
+      $tagValue = trim($tagValue, '"');
+      
+      $post = get_post( $postid ); 
+      if (empty($post)) {
+
+        // Create post object
         $args = array(
-          'ID'		     => wp_strip_all_tags( $postid ),
+          'post_title'    => wp_strip_all_tags( $tagName ),
+          'post_name'     => wp_strip_all_tags( $tagName ),
+          'post_content'  => $tagValue,
+          'post_status'   => 'publish',
+        );
+  
+        // Insert the post into the database
+        $postid = wp_insert_post( $args );
+      } else {
+        $args = array(
+          'ID'		     => $postid,
           'post_content' => $tagValue,
         );
         $postid = wp_update_post( $args );
