@@ -116,11 +116,29 @@ if ( !class_exists('TinyWebDB') ) {
   
       // this action enable from v 0.1.x
       // JSON_API , Post Parameters : tag
-      $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
-      $tagValue = get_post($postid);
-      if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
-      // $tagName = wp_tinywebdb_api_get_tagName($postid);
-      return $tagValue;
+
+      if (empty($tagName)) {
+      	$tagtype = get_option("wp_tinywebdb_api_tag_type");
+      	if ($tagtype=='') {
+      		$tagtype = 'id';
+      	}
+
+        $posts = get_posts('numberposts=10');
+        foreach ($posts as $post) {
+        	if ($tagtype == 'id') {
+            $tagnames[] = $post->ID;
+        	} else {
+            $tagnames[] = $post->post_name;
+        	}
+        }
+        return $tagnames;
+      } else {
+        $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
+        $tagValue = get_post($postid);
+        if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
+        // $tagName = wp_tinywebdb_api_get_tagName($postid);
+        return $tagValue;
+      }
     }
   
     public static function storeavalue($tagName, $tagValue) {
