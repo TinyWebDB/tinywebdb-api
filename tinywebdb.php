@@ -3,74 +3,74 @@
 if ( !class_exists('TinyWebDB') ) {
 
   class TinyWebDB {
-  
+
     private static $initiated = false;
-  
+
   	public static function init() {
   		if ( ! self::$initiated ) {
   			self::init_hooks();
   		}
     }
-  
+
     public static function init_hooks() {
       self::$initiated = true;
-  
+
     }
-  
+
     public function __construct() {
-  
+
       global $wp_query;
       if ($wp_query->is_404) {
           $wp_query->is_404 = false;
           $wp_query->is_archive = true;
       }
-  
+
     }
-  
+
     public function __destruct() {
       return true;
     }
-  
+
     public static function get_action() {
       global $wpdb;
-  
+
     	$request = $_SERVER['REQUEST_URI'];
     	if (!isset($_SERVER['REQUEST_URI'])) {
     		$request = substr($_SERVER['PHP_SELF'], 1);
     		if (isset($_SERVER['QUERY_STRING']) AND $_SERVER['QUERY_STRING'] != '') { $request.='?'.$_SERVER['QUERY_STRING']; }
     	}
-    	
+
     	$url_trigger = get_option("wp_tinywebdb_api_url_trigger");
     	if ($url_trigger=='') {
     		$url_trigger = 'api';
     	}
-    
+
     	if (isset($_POST['action'])) {
     		$request = '/' . $url_trigger . '/'.$_POST['action'].'/';
     	}
-    
+
     	if ( strpos('/'.$request, '/'.$url_trigger.'/') ) {
-  
+
         $tinywebdb_key = explode($url_trigger.'/', $request);
         $tinywebdb_key = $tinywebdb_key[1];
         $tinywebdb_key = explode('/', $tinywebdb_key);
         $action = $tinywebdb_key[0];
         $action = $wpdb->escape($action);
-    
+
         return $action;
   		}
       return "No match!";
     }
-  
+
     function wp_tinywebdb_api_get_postid($tagName){
-  
+
       $postid = NULL;
       $tagName = wp_strip_all_tags($tagName);
     	$tagtype = get_option("wp_tinywebdb_api_tag_type");
     	if ($tagtype=='') {
     		$tagtype = 'id';
     	}
-  
+
     	if ($tagtype == 'id') {
     		$postid = $tagName;
     	} else {
@@ -87,17 +87,17 @@ if ( !class_exists('TinyWebDB') ) {
     		  $postid = $my_posts[0]->ID;
     		}
     	}
-  
+
     	return $postid;
     }
-  
+
     function wp_tinywebdb_api_get_tagName($postid){
-  
+
     	$tagtype = get_option("wp_tinywebdb_api_tag_type");
     	if ($tagtype=='') {
     		$tagtype = 'id';
     	}
-  
+
     	if ($tagtype == 'id') {
     		$tagName = $postid;
     	} else {
@@ -106,14 +106,14 @@ if ( !class_exists('TinyWebDB') ) {
     		$slug = $post_data['post_name'];
     		$tagName = $slug;
     	}
-  
+
     	return $tagName;
     }
-  
+
     public static function getvalue($tagName) {
-  
+
       $bedtag = array("id" => "0", "post_author" => "0", "post_content" => "ERROR BAD tag SUPPLIED");
-  
+
       // this action enable from v 0.1.x
       // JSON_API , Post Parameters : tag
 
@@ -134,20 +134,20 @@ if ( !class_exists('TinyWebDB') ) {
         return $tagnames;
       } else {
         $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
-        $tagValue = get_post($postid);
+        $post = get_post($postid);
         if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
         // $tagName = wp_tinywebdb_api_get_tagName($postid);
-        return $tagValue;
+        return $post->post_content;
       }
     }
-  
+
     public static function storeavalue($tagName, $tagValue) {
   
       $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
       $tagValue = stripslashes($tagValue);
       $tagValue = trim($tagValue, '"');
-      
-      $post = get_post( $postid ); 
+
+      $post = get_post( $postid );
       if (empty($post)) {
 
         // Create post object
@@ -157,7 +157,7 @@ if ( !class_exists('TinyWebDB') ) {
           'post_content'  => $tagValue,
           'post_status'   => 'publish',
         );
-  
+
         // Insert the post into the database
         $postid = wp_insert_post( $args );
       } else {
