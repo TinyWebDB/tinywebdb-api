@@ -21,7 +21,7 @@ function wp_tinywebdb_api_optionsmenu() {
 		update_option("wp_tinywebdb_api_tag_type", $post_tagtype);
 	}
 	$setting_url_trigger = get_option("wp_tinywebdb_api_url_trigger") or $setting_url_trigger = 'api';
-	$setting_tagtype = get_option("wp_tinywebdb_api_tag_type") or $setting_tagtype = 'id';
+	$setting_tagtype = get_option("wp_tinywebdb_api_tag_type") or $setting_tagtype = 'slug';
 	$setting_apikey = get_option("wp_tinywebdb_api_key");
 
 	echo '<form method="post" action="">';
