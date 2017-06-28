@@ -66,10 +66,7 @@ if ( !class_exists('TinyWebDB') ) {
 
       $postid = NULL;
       $tagName = wp_strip_all_tags($tagName);
-    	$tagtype = get_option("wp_tinywebdb_api_tag_type");
-    	if ($tagtype=='') {
-    		$tagtype = 'id';
-    	}
+    	$tagtype = get_option("wp_tinywebdb_api_tag_type") or $tagtype = 'slug';
 
     	if ($tagtype == 'id') {
     		$postid = $tagName;
@@ -93,10 +90,7 @@ if ( !class_exists('TinyWebDB') ) {
 
     function wp_tinywebdb_api_get_tagName($postid){
 
-    	$tagtype = get_option("wp_tinywebdb_api_tag_type");
-    	if ($tagtype=='') {
-    		$tagtype = 'id';
-    	}
+    	$tagtype = get_option("wp_tinywebdb_api_tag_type") or $tagtype = 'slug';
 
     	if ($tagtype == 'id') {
     		$tagName = $postid;
@@ -118,10 +112,7 @@ if ( !class_exists('TinyWebDB') ) {
       // JSON_API , Post Parameters : tag
 
       if (empty($tagName)) {
-      	$tagtype = get_option("wp_tinywebdb_api_tag_type");
-      	if ($tagtype=='') {
-      		$tagtype = 'id';
-      	}
+      	$tagtype = get_option("wp_tinywebdb_api_tag_type") or $tagtype = 'slug';
 
         $posts = get_posts('numberposts=10');
         foreach ($posts as $post) {
