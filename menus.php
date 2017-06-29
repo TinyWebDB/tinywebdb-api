@@ -69,7 +69,7 @@ function wp_tinywebdb_api_optionsmenu() {
             </td>
           </tr>
           </tr>
-                  <tr class="inactive">
+                  <tr class="active">
             <th class="check-column" scope="row">
             </th>
             <td class="plugin-title">
