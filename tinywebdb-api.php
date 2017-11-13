@@ -63,18 +63,16 @@ function wp_tinywebdb_api_query() {
 			$apiKey = get_query_var('apikey');
 			error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
 			$setting_apikey = get_option("wp_tinywebdb_api_key");
-			if ($apiKey == $setting_apikey){
+			if (empty($tagName)) exit("tagName is empty.");
+			if ($apiKey != $setting_apikey) exit("wrong api key.");
 
-				$postid = TinyWebDB::storeavalue($tagName, $tagValue);
-				$tagName = TinyWebDB::wp_tinywebdb_api_get_tagName($postid);
+			$postid = TinyWebDB::storeavalue($tagName, $tagValue);
+			$tagName = TinyWebDB::wp_tinywebdb_api_get_tagName($postid);
 
-				header('Cache-Control: no-cache, must-revalidate');
-				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-				header('Content-type: application/json');
-				echo json_encode(array("STORED", $tagName, $tagValue));
-			} else {
-				echo "check api key.";
-			}
+			header('Cache-Control: no-cache, must-revalidate');
+			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+			header('Content-type: application/json');
+			echo json_encode(array("STORED", $tagName, $tagValue));
 		    exit;
 			break;
 		case "No match!":
