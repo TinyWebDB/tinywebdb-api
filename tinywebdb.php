@@ -106,8 +106,6 @@ if ( !class_exists('TinyWebDB') ) {
 
     public static function getvalue($tagName) {
 
-      $bedtag = array("id" => "0", "post_author" => "0", "post_content" => "ERROR BAD tag SUPPLIED");
-
       // this action enable from v 0.1.x
       // JSON_API , Post Parameters : tag
 
@@ -126,9 +124,8 @@ if ( !class_exists('TinyWebDB') ) {
       } else {
         $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
         $post = get_post($postid);
-        if (is_null($tagValue)) $tagValue = $bedtag;	//reports a get_post failure
-        // $tagName = wp_tinywebdb_api_get_tagName($postid);
-        return $post->post_content;
+        if (is_null($post)) return "NO FOUND"   //reports a get_post failure
+        else return $post->post_content;
       }
     }
 
