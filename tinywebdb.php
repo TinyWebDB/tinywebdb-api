@@ -124,7 +124,7 @@ if ( !class_exists('TinyWebDB') ) {
       } else {
         $postid = TinyWebDB::wp_tinywebdb_api_get_postid($tagName);
         $post = get_post($postid);
-        if (is_null($post)) return "NO FOUND"   //reports a get_post failure
+        if (is_null($post)) return "NO FOUND";   //reports a get_post failure
         else return $post->post_content;
       }
     }
