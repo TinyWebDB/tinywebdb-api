@@ -64,7 +64,7 @@ function wp_tinywebdb_api_query() {
 			error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
 			$setting_apikey = get_option("wp_tinywebdb_api_key");
 			if (empty($tagName)) exit("tagName is empty.");
-			if ($apiKey != $setting_apikey) exit("wrong api key.");
+			// if ($apiKey != $setting_apikey) exit("wrong api key."); // not implment yet
 
 			$postid = TinyWebDB::storeavalue($tagName, $tagValue);
 			$tagName = TinyWebDB::wp_tinywebdb_api_get_tagName($postid);
