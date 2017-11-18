@@ -8,7 +8,7 @@ Donate link: http://edu2web.com/tinywebdb-api/donate/
 Tags: appinventor, tinywebdb, api  
 Requires at least: 4.0  
 Tested up to: 4.9  
-Stable tag: 0.2.9  
+Stable tag: 0.2.8  
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
