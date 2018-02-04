@@ -61,7 +61,9 @@ function wp_tinywebdb_api_query() {
 			$tagName = get_query_var('tag');
 			$tagValue = get_query_var('value');	             // $_REQUEST['value']; //
 			$apiKey = get_query_var('apikey');
-			error_log("Wp TinyWebDB API : storeavalue: " . __FILE__ . "/" . __LINE__ . " ($apiKey) $tagName -- $tagValue");
+			$log_message = sprintf("%s:%s\n", date_i18n('Y-m-d H:i:s'), "storeavalue: ($apiKey) $tagName -- $tagValue");
+			$file_name = WP_CONTENT_DIR . '/tinywebdb_' . date_i18n('Y-m-d')  . '.log';
+			error_log($log_message, 3, $file_name);
 			$setting_apikey = get_option("wp_tinywebdb_api_key");
 			if (empty($tagName)) exit("tagName is empty.");
 			// if ($apiKey != $setting_apikey) exit("wrong api key."); // not implment yet
