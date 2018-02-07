@@ -91,7 +91,8 @@ function wp_tinywebdb_api_query() {
 
 //Just a boring function to insert the menus
 function wp_tinywebdb_api_add_pages() {
-	add_options_page("TinyWebDB Settings", "TinyWebDB API", "manage_options", __FILE__, "wp_tinywebdb_api_optionsmenu");
+	add_menu_page("TinyWebDB", "TinyWebDB", "manage_options", "tinywebdb_api", "wp_tinywebdb_api_optionsmenu", '', 81);
+	add_submenu_page("tinywebdb_api", "TinyWebDB", "Log tail", "manage_options", "tinywebdb_log", "wp_tinywebdb_api_logtailmenu");
 }
 
 

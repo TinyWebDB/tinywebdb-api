@@ -4,6 +4,69 @@ class TinyWebDB_Admin {
 
 }
 
+function wp_tinywebdb_api_logtailmenu() {
+	echo '<div class="wrap">';
+	if (function_exists('screen_icon')) {
+		screen_icon();
+	}
+	echo "<h2>TinyWebDB Log Tail</h2>";
+
+    echo "<table class=\"wp-list-table widefat striped pages\">";
+    echo "<thead><tr>";
+    echo "<th> Log Name </th>";
+    echo "</tr></thead>\n";
+
+        $listDir = array();
+        if($handler = opendir(WP_CONTENT_DIR)) {
+            while (($sub = readdir($handler)) !== FALSE) {
+                if ( substr($sub, 0, 10) == "tinywebdb_") {
+	  	    echo "<tr>";
+      		    echo "<td><a href=" . menu_page_url( 'tinywebdb_log' ,false) . "&logfile=" . $sub . ">$sub</a></td>\n";
+	  	    echo "</tr>";
+                }
+            }
+            closedir($handler);
+        }
+
+    echo "</table>";
+    if($_GET['logfile']) {
+	echo "<h2>Log file : " . WP_CONTENT_DIR. "/" .$_GET['logfile'] . "</h2>";
+	$lines = wp_tinywebdb_api_read_tail(WP_CONTENT_DIR. "/" .$_GET['logfile'], 30);
+	foreach ($lines as $line) {
+    		echo $line . "<br>";
+    	}
+    }
+}
+
+function wp_tinywebdb_api_read_tail($file, $lines) {
+    //global $fsize;
+    $handle = fopen($file, "r");
+    $linecounter = $lines;
+    $pos = -2;
+    $beginning = false;
+    $text = array();
+    while ($linecounter> 0) {
+        $t = " ";
+        while ($t != "\n") {
+            if(fseek($handle, $pos, SEEK_END) == -1) {
+                $beginning = true;
+                break;
+            }
+            $t = fgetc($handle);
+            $pos --;
+        }
+        $linecounter --;
+        if ($beginning) {
+            rewind($handle);
+        }
+        $text[$lines-$linecounter-1] = fgets($handle);
+        if ($beginning) break;
+    }
+    fclose ($handle);
+    return array_reverse($text);
+}
+
+
 //***** Options Menu *****
 function wp_tinywebdb_api_optionsmenu() {
 	echo '<div class="wrap">';
