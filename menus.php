@@ -14,24 +14,31 @@ function wp_tinywebdb_api_logtailmenu() {
     echo "<table class=\"wp-list-table widefat striped pages\">";
     echo "<thead><tr>";
     echo "<th> Log Name </th>";
+    echo "<th> Size </th>";
     echo "</tr></thead>\n";
 
         $listDir = array();
         if($handler = opendir(WP_CONTENT_DIR)) {
             while (($sub = readdir($handler)) !== FALSE) {
                 if ( substr($sub, 0, 10) == "tinywebdb_") {
-	  	    echo "<tr>";
-      		    echo "<td><a href=" . menu_page_url( 'tinywebdb_log' ,false) . "&logfile=" . $sub . ">$sub</a></td>\n";
-	  	    echo "</tr>";
+		    $listDir[] = $sub;
                 }
             }
             closedir($handler);
+	    sort($listDir);
+	    foreach ($listDir as $sub) {
+	  	echo "<tr>";
+      		echo "<td><a href=" . menu_page_url( 'tinywebdb_log' ,false) . "&logfile=" . $sub . ">$sub</a></td>\n";
+      		echo "<td>" . filesize(WP_CONTENT_DIR. "/" . $sub) . "</td>\n";
+	  	echo "</tr>";
+            }
         }
 
     echo "</table>";
     if($_GET['logfile']) {
-	echo "<h2>Log file : " . WP_CONTENT_DIR. "/" .$_GET['logfile'] . "</h2>";
-	$lines = wp_tinywebdb_api_read_tail(WP_CONTENT_DIR. "/" .$_GET['logfile'], 30);
+    	$logfile = substr($_GET['logfile'], 0, 24);
+	echo "<h2>Log file : " . WP_CONTENT_DIR. "/" .$logfile . "</h2>";
+	$lines = wp_tinywebdb_api_read_tail(WP_CONTENT_DIR. "/" .$logfile, 20);
 	foreach ($lines as $line) {
     		echo $line . "<br>";
     	}
