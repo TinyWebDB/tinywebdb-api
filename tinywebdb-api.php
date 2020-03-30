@@ -11,7 +11,6 @@ Author URI: http://edu2web.com/tinywebdb-api/
 Version: 0.2.9
 */
 
-
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
 define("TINYWEBDB_VER", "0.2.9");
 
@@ -21,12 +20,10 @@ add_action('template_redirect', 'wp_tinywebdb_api_query'); //Redirect
 add_action('admin_menu', 'wp_tinywebdb_api_add_pages'); //Admin pages
 //***** End Hooks *****
 
-
 //***** Installer *****
 if (is_admin()) {
 	include "installer.php";
 }
-
 
 //***** get $request and get_post , then json_encode it *****
 
@@ -39,10 +36,8 @@ function add_fetch($public_query_vars) {
 }
 
 function wp_tinywebdb_api_query() {
-
-
 	require_once dirname(__FILE__) . '/tinywebdb.php';
-	$tinywebdb = TinyWebDB;
+	$tinywebdb = new TinyWebDB();
 	header("HTTP/1.1 200 OK");
 
 	switch (TinyWebDB::get_action()) {
@@ -88,7 +83,6 @@ function wp_tinywebdb_api_query() {
 //***** End get $request and call JSON_API *****
 
 
-
 //Just a boring function to insert the menus
 function wp_tinywebdb_api_add_pages() {
 	add_menu_page("TinyWebDB", "TinyWebDB", "manage_options", "tinywebdb_api", "wp_tinywebdb_api_optionsmenu", '', 81);
@@ -96,12 +90,10 @@ function wp_tinywebdb_api_add_pages() {
 }
 
 
-
 //***** Menu *****
 if (is_admin()) {
 	include "menus.php";
 }
-
 
 
 //***** Text Truncation Helper Function *****
@@ -115,7 +107,6 @@ function wp_tinywebdb_api_truncate($text) {
 }
 
 
-
 //***** Get Plugin Location *****
 function wp_tinywebdb_api_get_plugin_dir($type) {
 	if ( !defined('WP_CONTENT_URL') )
@@ -127,14 +118,11 @@ function wp_tinywebdb_api_get_plugin_dir($type) {
 }
 
 
-
 //***** Add Item to Favorites Menu *****
 function wp_tinywebdb_api_add_menu_favorite($actions) {
 	$actions[TINYWEBDB] = array('TinyWebDB', 'manage_options');
 	return $actions;
 }
 add_filter('favorite_actions', 'wp_tinywebdb_api_add_menu_favorite'); //Favorites Menu
-
-
 
 ?>
