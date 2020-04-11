@@ -93,6 +93,9 @@ Refine API from original tinywebdb.
 = 0.2.8 =  
 Active "Store A Value" and some enhancement.
 
+= 0.2.9 = 
+Active log viewer and some enhancement.
+
 = 0.2.10 =  
 App PHP7 support.
 
