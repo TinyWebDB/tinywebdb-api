@@ -1,15 +1,15 @@
 === TinyWebDB API ===
 
 Contributors: chen420  
-Plugin URI: https://github.com/edu2web/tinywebdb-api  
+Plugin URI: https://github.com/TinyWebDB/tinywebdb-api
 Author URI: https://github.com/chen420  
-Document URI: http://edu2web.com/tinywebdb-api/  
-Donate link: http://edu2web.com/tinywebdb-api/donate/  
+Document URI: http://api.edu2web.com/tinywebdb-api/  
+Donate link:  http://api.edu2web.com/tinywebdb-api/donate/  
 Tags: appinventor, tinywebdb, api  
 Requires at least: 4.0  
 Requires PHP: 5.2.4  
-Tested up to: 4.9  
-Stable tag: 0.2.9
+Tested up to: 5.5  
+Stable tag: 0.2.10
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -92,5 +92,8 @@ Refine API from original tinywebdb.
 
 = 0.2.8 =  
 Active "Store A Value" and some enhancement.
+
+= 0.2.10 =  
+App PHP7 support.
 
 = 1.0.0 =  

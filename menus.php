@@ -106,13 +106,7 @@ function wp_tinywebdb_api_optionsmenu() {
           <th class="manage-column check-column" scope="col"></th>
           <th class="manage-column" scope="col">Controller</th>
           <th class="manage-column" scope="col">Description</th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <th class="manage-column check-column" scope="col"></th>
-          <th class="manage-column" scope="col">Controller</th>
-          <th class="manage-column" scope="col">Description</th>
+          <th class="manage-column" scope="col">API</th>
         </tr>
       </tfoot>
       <tbody class="plugins">
@@ -124,6 +118,8 @@ function wp_tinywebdb_api_optionsmenu() {
             </td>
             <td class="desc">
               <p>Basic introspection methods</p>
+            </td>
+            <td class="desc">
 	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/info/">info</a></code></p>
             </td>
           </tr>
@@ -135,6 +131,8 @@ function wp_tinywebdb_api_optionsmenu() {
             </td>
             <td class="desc">
               <p>Get dara from your post by Post ID or  Slug </p>
+            </td>
+            <td class="desc">
 	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/getvalue/">getvalue</a></code></p>
             </td>
           </tr>
@@ -147,6 +145,8 @@ function wp_tinywebdb_api_optionsmenu() {
             </td>
             <td class="desc">
               <p>Store data on a your post by Post ID or  Slug </p>
+            </td>
+            <td class="desc">
 	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/storeavalue/">storeavalue</a></code></p>
             </td>
      </tbody>
