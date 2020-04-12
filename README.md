@@ -8,12 +8,14 @@ Document URI: http://api.edu2web.com/tinywebdb-api/
 **Tags:** appinventor, tinywebdb, api  
 **Requires at least:** 4.0  
 **Requires PHP:** 5.2.4  
-**Tested up to:** 5.5  
+**Tested up to:** 5.4  
 **Stable tag:** 0.2.11
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebDB web service.
+We also have lso have a TinyWebDB implementation based on PHP and textfile. No database is required.
+https://github.com/TinyWebDB/tinywebdb-php
 
 
 ## Description ##
