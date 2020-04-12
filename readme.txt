@@ -9,7 +9,7 @@ Tags: appinventor, tinywebdb, api
 Requires at least: 4.0  
 Requires PHP: 5.2.4  
 Tested up to: 5.5  
-Stable tag: 0.2.10
+Stable tag: 0.2.11
 License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -96,7 +96,8 @@ Active "Store A Value" and some enhancement.
 = 0.2.9 = 
 Active log viewer and some enhancement.
 
-= 0.2.10 =  
+= 0.2.11 =  
 App PHP7 support.
+App test form on admin page.
 
 = 1.0.0 =  

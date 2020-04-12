@@ -94,7 +94,6 @@ function wp_tinywebdb_api_optionsmenu() {
 	$setting_tagtype = get_option("wp_tinywebdb_api_tag_type") or $setting_tagtype = 'slug';
 	$setting_apikey = get_option("wp_tinywebdb_api_key");
 
-	echo '<form method="post" action="">';
 	echo '<table class="form-table">';
 	?>
 
@@ -133,7 +132,11 @@ function wp_tinywebdb_api_optionsmenu() {
               <p>Get dara from your post by Post ID or  Slug </p>
             </td>
             <td class="desc">
-	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/getvalue/">getvalue</a></code></p>
+    <form action="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/getvalue" method="post" enctype=application/x-www-form-urlencoded>
+       Tag:<input type="text" name="tag" />
+       <input type="hidden" name="fmt" value="html">
+       <input type="submit" value="Get value">
+    </form>
             </td>
           </tr>
           </tr>
@@ -147,7 +150,12 @@ function wp_tinywebdb_api_optionsmenu() {
               <p>Store data on a your post by Post ID or  Slug </p>
             </td>
             <td class="desc">
-	      <p><code><a href="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/storeavalue/">storeavalue</a></code></p>
+    <form action="<?php echo get_option('home') . "/" . $setting_url_trigger ?>/storeavalue" method="post" enctype=application/x-www-form-urlencoded>
+	   Tag:<input type="text" name="tag"/>
+	   Value:<input type="text" name="value" size="30"/>
+	   <input type="hidden" name="fmt" value="html">
+	   <input type="submit" value="Store a value">
+    </form>
             </td>
      </tbody>
     </table>
@@ -156,15 +164,16 @@ function wp_tinywebdb_api_optionsmenu() {
 
 	<h3>Address</h3>
 
+	<form method="post" action="">
     <table class="form-table">
         <tr valign="top">
             <th scope="row">API base</th>
-		<td><input name="urltrigger" type="text" id="urltrigger" value="<?php echo $setting_url_trigger; ?>" size="50" /><br/>Specify a base URL for TinyWebDB API. For example, using api as your API base URL would enable the following <?php echo get_option('home'); ?>/api/. You can change the <em>api</em> part of your TinyWebDB APIs to something else. Enter without slashes.</td>
+		<td><input name="urltrigger" type="text" id="urltrigger" value="<?php echo $setting_url_trigger; ?>" size="50" /><br/>Specify a base URL for TinyWebDB API. For example, using 'api' as your API base URL would enable the following '<?php echo get_option('home'); ?>/api/'. <br>You can change the <em>api</em> part of your TinyWebDB APIs to something else. Enter without slashes.</td>
 	</tr>
 
         <tr valign="top">
             <th scope="row">API Key</th>
-		<td><input name="apikey" type="text" id="apikey" value="<?php echo $setting_apikey; ?>" size="50" /><br/>Set api key to protect your TinyWebDB API. Client mast set same api key to Store A Value to your site</td>
+		<td><input name="apikey" type="text" id="apikey" value="<?php echo $setting_apikey; ?>" size="50" /><br/>Set api key to protect your TinyWebDB API. Client mast set same api key to Store A Value to your site. (This function no ready)</td>
 	</tr>
 
 	<tr valign="top">
@@ -175,11 +184,12 @@ function wp_tinywebdb_api_optionsmenu() {
 			<br/>Select Tag mach to type <em>post_id</em> or <em>slug</em>.</td>
 	</tr>
 
+	</table>
+	<input name="issubmitted" type="hidden" value="yes" />
+	<p class="submit"><input type="submit" name="Submit" value="Save settings" /></p>
+	</form>
+
 	<?php
-	echo '</table>';
-	echo '<input name="issubmitted" type="hidden" value="yes" />';
-	echo '<p class="submit"><input type="submit" name="Submit" value="Save settings" /></p>';
-	echo '</form>';
 	wp_tinywebdb_api_footer();
 	echo '</div>';
 }

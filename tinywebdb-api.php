@@ -8,11 +8,11 @@ Description: a AppInventor TinyWebDB API plugin, use you WordPress as a TinyWebD
     Store A Value {ServiceURL}/storeavalue tag,value        JSON: ["STORED", "{tag}", {value}]
 Author: Hong Chen
 Author URI: http://edu2web.com/tinywebdb-api/
-Version: 0.2.10
+Version: 0.2.11
 */
 
 define("TINYWEBDB", "tools.php?page=tinywebdb-api/tinywebdb-api.php");
-define("TINYWEBDB_VER", "0.2.10");
+define("TINYWEBDB_VER", "0.2.11");
 
 //***** Hooks *****
 register_activation_hook(__FILE__,'wp_tinywebdb_api_install'); //Install

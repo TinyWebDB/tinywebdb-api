@@ -50,16 +50,14 @@ if ( !class_exists('TinyWebDB') ) {
     	}
 
     	if ( strpos('/'.$request, '/'.$url_trigger.'/') ) {
-
-        $tinywebdb_key = explode($url_trigger.'/', $request);
-        $tinywebdb_key = $tinywebdb_key[1];
-        $tinywebdb_key = explode('/', $tinywebdb_key);
-        $action = $tinywebdb_key[0];
-        $action = $wpdb->escape($action);
-
-        return $action;
-  		}
-      return "No match!";
+		$tinywebdb_key = explode($url_trigger.'/', $request);
+		$tinywebdb_key = $tinywebdb_key[1];
+		$tinywebdb_key = explode('/', $tinywebdb_key);
+		$action = $tinywebdb_key[0];
+		$action = $wpdb->escape($action);
+        	return $action;
+ 	}
+	return "No match!";
     }
 
     function wp_tinywebdb_api_get_postid($tagName){
